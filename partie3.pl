@@ -98,13 +98,37 @@ transformation_and(Lie, Lpt, [(A,and(C,D)) | Li], Lu, Ls, Abr):-
 
 
 /*Règle ∀*/
-deduction_all(Lie,Lpt,Li,Lu,Ls,Abr).
+deduction_all(Lie,[(A,all(R,C)) | Lpt], Li, Lu, Ls, [(A, B, R) | Abr]):- 
+    % ajoute assertion b : C
+    evolue((B, C), Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1),
 
-transformation_or(Lie,Lpt,Li,Lu,Ls,Abr).
+    % continue la résolution
+    resolution(Lie1, Lpt1, Li1, Lu1, Ls1, Abr). 
 
 
 
-%/* Affichage */%
+/* Règle ⊔*/
+transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
+    % ajoute assertion a : C à la première branche
+    evolue((A, C), Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1),
+
+    % continue la résolution de la première branche
+    resolution(Lie1, Lpt1, Li1, Lu1, Ls1, Abr),
+
+transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
+    % ajoute assertion a : D à la deuxième branche
+    evolue((A, D), Lie, Lpt, Li, Lu, Ls, Lie2, Lpt2, Li2, Lu2, Ls2),
+
+    % continue la résolution de la première branche
+    resolution(Lie2, Lpt2, Li2, Lu2 Ls2, Abr),
+
+
+
+
+
+
+%/* Affichage */% 
+/* A FAIRE*/
 
 affiche_evolution_Abox(Ls1, Lie1, Lpt1, Li1, Lu1, Abr1, Ls2, Lie2, Lpt2, Li2, Lu2, Abr2).
 
@@ -113,6 +137,7 @@ affiche_evolution_Abox(Ls1, Lie1, Lpt1, Li1, Lu1, Abr1, Ls2, Lie2, Lpt2, Li2, Lu
 
 
 %/* Démonstration */%
+/* A FAIRE*/
 
 resolution(Lie,Lpt,Li,Lu,Ls,Abr):-complete_some(Lie,Lpt,Li,Lu,Ls,Abr),
                                 transformation_and(Lie,Lpt,Li,Lu,Ls,Abr),
