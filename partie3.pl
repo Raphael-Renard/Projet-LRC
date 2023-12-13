@@ -137,15 +137,23 @@ affiche_evolution_Abox(Ls1, Lie1, Lpt1, Li1, Lu1, Abr1, Ls2, Lie2, Lpt2, Li2, Lu
 
 
 %/* Démonstration */%
-/* A FAIRE*/
 
-resolution(Lie,Lpt,Li,Lu,Ls,Abr):-complete_some(Lie,Lpt,Li,Lu,Ls,Abr),
-                                transformation_and(Lie,Lpt,Li,Lu,Ls,Abr),
-                                deduction_all(Lie,Lpt,Li,Lu,Ls,Abr),
-                                transformation_or(Lie,Lpt,Li,Lu,Ls,Abr).
+/* test_clash est vrai s'il y a un clash*/
+test_clash(Ls):-member((I,C), Ls), nnf(not(C), NC), member((I,NC), Ls).
 
 
+/* Résolution : renvoie vrai si 1 feuille est ouverte */
+/*suit la boucle de contrôle du processus de développement de l'arbre p16*/
+resolution(Lie,Lpt,Li,Lu,Ls,Abr):- complete_some(Lie,Lpt,Li,Lu,Ls,Abr), \+ test_clash(Ls).
+resolution([],Lpt,Li,Lu,Ls,Abr):- transformation_and([],Lpt,Li,Lu,Ls,Abr), \+ test_clash(Ls).
+resolution([],[],Li,Lu,Ls,Abr):- deduction_all([],[],Li,Lu,Ls,Abr), \+ test_clash(Ls).
+resolution([],[],[],Lu,Ls,Abr):- transformation_or([],[],[],Lu,Ls,Abr), \+ test_clash(Ls).
+resolution([],[],[],[],Ls,Abr):- \+ test_clash(Ls).
+
+
+
+/* boucle de résolution */
 troisieme_etape(Abi,Abr) :- tri_Abox(Abi,Lie,Lpt,Li,Lu,Ls),
                             resolution(Lie,Lpt,Li,Lu,Ls,Abr),
-                            nl,write('Youpiiiiii, on a demontre la
+                            nl,write('On a demontré la
                             proposition initiale !!!').
