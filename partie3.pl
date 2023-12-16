@@ -125,7 +125,7 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
     affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr1),
 
     % continue la résolution de la première branche
-    resolution(Lie1, Lpt1, Li1, Lu1, Ls1, Abr),
+    resolution(Lie1, Lpt1, Li1, Lu1, Ls1, Abr).
 
 
 transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
@@ -135,8 +135,8 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
     % affichage
     affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr2),
 
-    % continue la résolution de la première branche
-    resolution(Lie2, Lpt2, Li2, Lu2 Ls2, Abr),
+    % continue la résolution de la deuxième branche
+    resolution(Lie2, Lpt2, Li2, Lu2 Ls2, Abr).
 
 
 
@@ -190,7 +190,7 @@ affiche_evolution_Abox(Ls1, Lie1, Lpt1, Li1, Lu1, Abr1, Ls2, Lie2, Lpt2, Li2, Lu
 %/* Démonstration */%
 
 /* test_clash est vrai s'il y a un clash*/
-test_clash(Ls):-member((I,C), Ls), nnf(not(C), NC), member((I,NC), Ls).
+test_clash(Ls):-member((I,C), Ls), cnamea(C), member((I,not(C)), Ls).
 
 
 /* Résolution : renvoie vrai si 1 feuille est ouverte */
