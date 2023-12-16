@@ -51,14 +51,14 @@ evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls):-
     member((I,or(C1,C2)), Lu).
 
 /*Assertions restantes (avec concepts atomiques)*/
-evolue((I,not(C)) Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, [(I,not(C)) | Ls]):- 
+evolue((I,not(C)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, [(I,not(C)) | Ls]):- 
     \+ member((I,not(C)), Ls), 
     cnamea(C).
 evolue((I,not(C)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls):- 
     member((I,not(C)), Ls), 
     cnamea(C).
 
-evolue((I,C) Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, [(I,C) | Ls]):- 
+evolue((I,C), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, [(I,C) | Ls]):- 
     \+ member((I,C), Ls), 
     cnamea(C).
 evolue((I,C), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls):- 
@@ -136,7 +136,7 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
     affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr2),
 
     % continue la résolution de la deuxième branche
-    resolution(Lie2, Lpt2, Li2, Lu2 Ls2, Abr).
+    resolution(Lie2, Lpt2, Li2, Lu2, Ls2, Abr).
 
 
 
@@ -172,7 +172,7 @@ affiche_evolution_Abox(Ls1, Lie1, Lpt1, Li1, Lu1, Abr1, Ls2, Lie2, Lpt2, Li2, Lu
     affichage(Abr1),
     nl,
 
-    write("Etat d'arrivée :"),nl,nl.
+    write("Etat d'arrivée :"),nl,nl,
     affichage(Ls2),
     affichage(Lie2),
     affichage(Lpt2),
