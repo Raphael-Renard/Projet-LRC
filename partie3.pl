@@ -144,6 +144,7 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
 
 
 %/* Affichage */% 
+affichage([]).
 
 affichage(C) :- cnamea(C), write(C).
 affichage(not(C)):- write("¬ "), affichage(C).
