@@ -23,7 +23,6 @@ tri_Abox([(I,C) | Abi], Lie, Lpt, Li, Lu, [(I,C) | Ls]):-
 
 
 
-
 %/* Evolution des listes */%
 
 /*Exist*/
