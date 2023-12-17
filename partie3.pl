@@ -94,7 +94,7 @@ complete_some([(A,some(R,C)) | Lie], Lpt, Li, Lu, Ls, Abr):-
     
     % affichage
     write("On applique la règle  \u2203 sur "), affichage([(A,some(R,C))]),nl,
-    affiche_evolution_Abox(Ls, [(A,some(R,C)) | Lie], Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),   
+    affiche_evolution_Abox(Ls, [(A,some(R,C)) | Lie], Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, [(A, B, R) | Abr]),   
 
     % ajoute assertion <a, b> : R et continue la résolution
     resolution(Lie1, Lpt1, Li1, Lu1, Ls1, [(A, B, R) | Abr]).               
@@ -107,12 +107,10 @@ transformation_and(Lie, Lpt, [(A,and(C,D)) | Li], Lu, Ls, Abr):-
 
     % affichage
     write("On applique la règle \u2293 sur "), affichage([(A,and(C,D))]),nl,
-    affiche_evolution_Abox(Ls, Lie, Lpt, [(A,and(C,D)) | Li], Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr).
+    affiche_evolution_Abox(Ls, Lie, Lpt, [(A,and(C,D)) | Li], Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),
 
-    /*
     % continue la résolution
     resolution(Lie1, Lpt1, Li1, Lu1, Ls1, Abr). 
-    */
 
 
 /*Règle ∀*/
@@ -154,7 +152,7 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
 
     % affichage
     nl,
-    write("On applique la règle  \u2294 sur "), affichage([(A,or(C,D))]),nl,
+    write("On applique la règle  \u2294 sur "), affichage([(A,or(C,D))]), write("- première branche"),nl,
     affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),
 
     % continue la résolution de la première branche
@@ -166,6 +164,8 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
     evolue((A, D), Lie, Lpt, Li, Lu, Ls, Lie2, Lpt2, Li2, Lu2, Ls2),
 
     % affichage
+    nl,
+    write("On applique la règle  \u2294 sur "), affichage([(A,or(C,D))]), write("- deuxième branche"),nl,
     affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr),
 
     % continue la résolution de la deuxième branche
@@ -212,7 +212,7 @@ affiche_evolution_Abox(Ls1, Lie1, Lpt1, Li1, Lu1, Abr1, Ls2, Lie2, Lpt2, Li2, Lu
     affichage(Li1),
     affichage(Lu1),
     affichageR(Abr1),
-    nl,
+    nl,nl,
 
     write("Etat d'arrivée :"),nl,nl,
     affichage(Ls2),
@@ -240,7 +240,7 @@ test_clash(Ls):-member((I,C), Ls), cnamea(C), member((I,not(C)), Ls).
 /*suit la boucle de contrôle du processus de développement de l'arbre p16*/
 resolution(Lie,Lpt,Li,Lu,Ls,Abr):- complete_some(Lie,Lpt,Li,Lu,Ls,Abr), \+ test_clash(Ls).
 resolution([],Lpt,Li,Lu,Ls,Abr):- transformation_and([],Lpt,Li,Lu,Ls,Abr), \+ test_clash(Ls).
-resolution([],[],Li,Lu,Ls,Abr):- deduction_all([],[],Li,Lu,Ls,Abr), \+ test_clash(Ls).
+resolution([],Lpt,[],Lu,Ls,Abr):- deduction_all([],Lpt,[],Lu,Ls,Abr), \+ test_clash(Ls).
 resolution([],[],[],Lu,Ls,Abr):- transformation_or([],[],[],Lu,Ls,Abr), \+ test_clash(Ls).
 resolution([],[],[],[],Ls,Abr):- \+ test_clash(Ls).
 
