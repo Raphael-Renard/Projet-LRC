@@ -52,7 +52,7 @@ evolue((I,and(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls):-
     member((I,and(C1,C2)), Li).
 
 /*Or*/
-evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, [(I,and(C1,C2)) | Lu], Ls):- 
+evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, [(I,or(C1,C2)) | Lu], Ls):- 
     \+ member((I,or(C1,C2)), Lu).
 evolue((I,or(C1,C2)), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls):- 
     member((I,or(C1,C2)), Lu).
@@ -72,7 +72,7 @@ evolue((I,C), Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls):-
     member((I,C), Ls), 
     cnamea(C).
 
-
+/*Mise à jour récursive*/
 evolue_plusieurs([], Lie, Lpt, Li, Lu, Ls, Lie, Lpt, Li, Lu, Ls).
 evolue_plusieurs([A|L], Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1) :-
     evolue(A, Lie, Lpt, Li, Lu, Ls, Lie2, Lpt2, Li2, Lu2, Ls2),
@@ -93,7 +93,8 @@ complete_some([(A,some(R,C)) | Lie], Lpt, Li, Lu, Ls, Abr):-
     evolue((B, C), Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1),
     
     % affichage
-    affiche_evolution_Abox(Ls, [(A,some(R,C)) | Lie], Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),      
+    write("On applique la règle  \u2203 sur "), affichage([(A,some(R,C))]),nl,
+    affiche_evolution_Abox(Ls, [(A,some(R,C)) | Lie], Lpt, Li, Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),   
 
     % ajoute assertion <a, b> : R et continue la résolution
     resolution(Lie1, Lpt1, Li1, Lu1, Ls1, [(A, B, R) | Abr]).               
@@ -105,10 +106,13 @@ transformation_and(Lie, Lpt, [(A,and(C,D)) | Li], Lu, Ls, Abr):-
     evolue_plusieurs([(A, C),(A, D)], Lie, Lpt, Li, Lu, Ls, Lie1, Lpt1, Li1, Lu1, Ls1),
 
     % affichage
-    affiche_evolution_Abox(Ls, Lie, Lpt, [(A,and(C,D)) | Li], Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),
+    write("On applique la règle \u2293 sur "), affichage([(A,and(C,D))]),nl,
+    affiche_evolution_Abox(Ls, Lie, Lpt, [(A,and(C,D)) | Li], Lu, Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr).
 
+    /*
     % continue la résolution
     resolution(Lie1, Lpt1, Li1, Lu1, Ls1, Abr). 
+    */
 
 
 /*Règle ∀*/
@@ -151,24 +155,21 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
     % affichage
     nl,
     write("On applique la règle  \u2294 sur "), affichage([(A,or(C,D))]),nl,
-    affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr).
+    affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),
 
-    /*
     % continue la résolution de la première branche
     resolution(Lie1, Lpt1, Li1, Lu1, Ls1, Abr).
-    */
+
 
 transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
     % ajoute assertion a : D à la deuxième branche
     evolue((A, D), Lie, Lpt, Li, Lu, Ls, Lie2, Lpt2, Li2, Lu2, Ls2),
 
     % affichage
-    affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr).
+    affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr),
 
-    /*
     % continue la résolution de la deuxième branche
     resolution(Lie2, Lpt2, Li2, Lu2, Ls2, Abr).
-    */
 
 
 
