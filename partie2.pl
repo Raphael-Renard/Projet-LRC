@@ -12,7 +12,7 @@ acquisition_prop_type1(Abi, Abi1, Tbox) :-
         write('\[ERREUR] : I est pas déclaré ou C est pas un concept'), nl,
         write('A nouveau'), nl, fail
     )),
-    transforme([(I,not(CG))], [(I, CG_dev_nnf)]), % Développement + nnf
+    transforme([(I,not(CG))], [(I, CG_dev_nnf)]), 
     concat(Abi,[(I, CG_dev_nnf)], Abi1), % Ajout de l input  dans la ABox
     %write("Abi1"), write(Abi1),
     nl. 
