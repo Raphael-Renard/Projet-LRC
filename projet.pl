@@ -83,11 +83,12 @@ chiffre_car(9,'9').
 
 :- discontiguous concept/1.
 
-% Vérification sémantique :                 
+% Vérification sémantique                
 concept(C) :- cnamea(C). % concepts atomique
 concept(CG) :- cnamena(CG). % non atomique
 instance(I) :- iname(I). % identificateurs d instance
 role(R) :- rname(R). % identificateurs de rôle.
+
 
 % la grammaire de  ALC 
 concept(not(C)) :- concept(C).
@@ -96,10 +97,14 @@ concept(or(C1, C2)) :- concept(C1), concept(C2).
 concept(some(R, C)) :- role(R), concept(C).
 concept(all(R, C)) :- role(R), concept(C).
 
-% Vérification syntaxique Tbox et Abox concept et role                                                
+
+% Vérification syntaxique Tbox et Abox concept et role   
+
 definition(CA, CG) :- cnamena(CA), concept(CG).
+
 verify_tbox([]).
 verify_tbox([(CA, CG) | Q]) :-  definition(CA, CG), verify_tbox(Q).
+
 
 instanciationC(I, CG) :- instance(I), concept(CG).
 instanciationR(I1, I2, R) :- instance(I1), instance(I2), role(R).
@@ -108,6 +113,7 @@ verify_aboxConcept([(I, CG) | Q]) :- instanciationC(I, CG), verify_aboxConcept(Q
 verify_aboxRole([]).
 verify_aboxRole([(I1, I2, R) | Q]) :- instanciationR(I1, I2, R), verify_aboxRole(Q).
 verif_Abox(AboxC,AboxR) :- verify_aboxConcept(AboxC), verify_aboxRole(AboxR).
+
 
 % Auto-référencement                       
 non_circular([]).
@@ -121,6 +127,7 @@ autoref(C, all(_,D)) :- autoref(C,D).
 autoref(C, some(_,D)) :- autoref(C,D).
 autoref(C, not(D)) :- autoref(C,D).
 	
+
 % Traitement des Boxs 
 developpe(C, C) :- cnamea(C).
 developpe(C, D) :- equiv(C, E), developpe(E, D).
@@ -130,9 +137,11 @@ developpe(and(C1,C2),and(D1,D2)) :-  developpe(C1,D1), developpe(C2,D2).
 developpe(some(R,C), some(R,D)) :- developpe(C, D).
 developpe(all(R,C), all(R,D)) :- developpe(C, D).
 
+
 % traitement de Tbox et traitement de Abox
 transforme([], []).
 transforme([(X,C) | L], [(X,D) | M]) :-  developpe(C, E), nnf(E, D), transforme(L, M).
+
 
 nnf(not(and(C1,C2)),or(NC1,NC2)) :- nnf(not(C1),NC1), nnf(not(C2),NC2),!.
 nnf(not(or(C1,C2)),and(NC1,NC2)) :- nnf(not(C1),NC1),nnf(not(C2),NC2),!.
@@ -195,14 +204,15 @@ acquisition_prop_type2(Abi, Abi1, Tbox) :-
     %write("Abi1"), write(Abi1),
     nl.
 
-:- encoding(utf8).
+
+
 
 
 
 
 /* Partie 3 */
 
-
+:- encoding(utf8).
 
 %/* Tri Abox %/*
 
