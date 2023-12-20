@@ -152,7 +152,7 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
 
     % affichage
     nl,
-    write("On applique la règle  \u2294 sur "), affichage([(A,or(C,D))]), write("- première branche"),nl,
+    write("On applique la règle  \u2294 sur "), affichage([(A,or(C,D))]), write("(première branche)"),nl,
     affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls1, Lie1, Lpt1, Li1, Lu1, Abr),
 
     % continue la résolution de la première branche
@@ -165,7 +165,7 @@ transformation_or(Lie, Lpt, Li, [(A,or(C,D)) | Lu], Ls, Abr):-
 
     % affichage
     nl,
-    write("On applique la règle  \u2294 sur "), affichage([(A,or(C,D))]), write("- deuxième branche"),nl,
+    write("On applique la règle  \u2294 sur "), affichage([(A,or(C,D))]), write("(deuxième branche)"),nl,
     affiche_evolution_Abox(Ls, Lie, Lpt, Li, [(A,or(C,D)) | Lu], Abr, Ls2, Lie2, Lpt2, Li2, Lu2, Abr),
 
     % continue la résolution de la deuxième branche
