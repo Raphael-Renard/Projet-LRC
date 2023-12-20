@@ -83,7 +83,7 @@ chiffre_car(9,'9').
 
 :- discontiguous concept/1.
 
-% Vérification sémantique :                                                │
+% Vérification sémantique :                 
 concept(C) :- cnamea(C). % concepts atomique
 concept(CG) :- cnamena(CG). % non atomique
 instance(I) :- iname(I). % identificateurs d instance
